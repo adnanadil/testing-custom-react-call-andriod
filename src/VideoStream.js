@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import Peer from 'peerjs';
-import './App.css';
+import './VideoStream.css';
 
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from './utils';
 import { logDOM } from '@testing-library/react';
 
-function App() {
+function VideoStream() {
   const [peerId, setPeerId] = useState('');
   const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
-  const remoteVideoRef = useRef(null);
-  const currentUserVideoRef = useRef(null);
+  const remoteVideoRefVideoStream = useRef(null);
+  const currentUserVideoRefVideoStream = useRef(null);
   const peerInstance = useRef(null);
 
   const [hideUTBvideoScreen, sethideUTBvideoScreen] = useState(false)
 
 
-  onSnapshot(doc(db, "robots", "UTB-Tele-Bot"), (doc) => {
-    console.log("Current data: ", doc.data().available);
-    sethideUTBvideoScreen(!(doc.data().available))
-  });
+  // onSnapshot(doc(db, "robots", "UTB-Tele-Bot"), (doc) => {
+  //   console.log("Current data: ", doc.data().available);
+  //   sethideUTBvideoScreen(!(doc.data().available))
+  // });
 
   useEffect(() => {
     // const peer = new Peer();
@@ -38,13 +38,13 @@ function App() {
       var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
       getUserMedia({ video: true, audio: true }, (mediaStream) => {
-        currentUserVideoRef.current.srcObject = mediaStream;
-        currentUserVideoRef.current.play();
+        currentUserVideoRefVideoStream.current.srcObject = mediaStream;
+        currentUserVideoRefVideoStream.current.play();
         // currentUserVideoRef.current.stop();
         call.answer(mediaStream)
         call.on('stream', function(remoteStream) {
-          remoteVideoRef.current.srcObject = remoteStream
-          remoteVideoRef.current.play();
+          remoteVideoRefVideoStream.current.srcObject = remoteStream
+          remoteVideoRefVideoStream.current.play();
         });
       });
     })
@@ -52,32 +52,27 @@ function App() {
     peerInstance.current = peer;
 
 
-    if (!hideUTBvideoScreen){
-      
-    }
+   
 
-  }, [hideUTBvideoScreen])
+  }, [])
 
 
-  if (!hideUTBvideoScreen){
-  }
 
   const call = (remotePeerId) => {
     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     getUserMedia({ video: true, audio: true }, (mediaStream) => {
 
-      currentUserVideoRef.current.srcObject = mediaStream;
-      currentUserVideoRef.current.play();
+      currentUserVideoRefVideoStream.current.srcObject = mediaStream;
+      currentUserVideoRefVideoStream.current.play();
 
       const call = peerInstance.current.call(remotePeerId, mediaStream)
 
       call.on('stream', (remoteStream) => {
-        remoteVideoRef.current.srcObject = remoteStream
-        remoteVideoRef.current.play();
+        remoteVideoRefVideoStream.current.srcObject = remoteStream
+        remoteVideoRefVideoStream.current.play();
       });
     });
-  }
 
     
 //     const unsubscribe = props.firebase
@@ -93,29 +88,20 @@ function App() {
   // return () => {
   //   unsub()
   //   }
-
+  }
 
   return (
     <div className="App">
       {/* <h1>Current user id is {peerId}</h1>
       <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
       <button onClick={() => call(remotePeerIdValue)}>Call</button> */}
-      <div id={hideUTBvideoScreen? "hide" :"videoHolder"} autoPlay>
-        {/* <video id="promoVideo">
-        src=''
-        </video> */}
-        {/* <img id="logo-image" src ="images/UTB-logo.png"/> */}
-        <video id="promoVideo" autoPlay loop muted>
-            <source src="videos/UTB.MP4" type="video/mp4" />
-        </video>
-        {/* <iframe src="https://drive.google.com/file/d/16kh7_isQFUwZ9LQ-1y07fv4mX3zIzFIq/preview" width="600" height="480" autoPlay></iframe> */}
-      </div>
-      <div id={!hideUTBvideoScreen? "hide" :"videoCallHolder"}>
+      {/* <div id={!hideUTBvideoScreen? "hide" :"videoCallHolder"}> */}
+      <div id={"videoCallHolder"}>
         {/* <div> */}
-          <video ref={remoteVideoRef} id={"primary-video"} playsInline />
+          <video ref={remoteVideoRefVideoStream} id={"primary-video"} playsInline />
         {/* </div> */}
         {/* <div> */}
-          <video ref={ currentUserVideoRef} muted id={"secondary-video"} playsInline autoPlay={false}/>
+          <video ref={ currentUserVideoRefVideoStream} id={"secondary-video"} playsInline/>
         {/* </div> */}
         {/* <button onClick={() => {sethideUTBvideoScreen(false)}}>unhide the lad</button> */}
       </div>
@@ -123,4 +109,4 @@ function App() {
   );
 }
 
-export default App;
+export default VideoStream;

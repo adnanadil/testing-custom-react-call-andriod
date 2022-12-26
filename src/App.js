@@ -104,10 +104,10 @@ function App() {
         {/* <video id="promoVideo">
         src=''
         </video> */}
-        {/* <img id="logo-image" src ="images/UTB-logo.png"/> */}
-        <video id="promoVideo" autoPlay loop muted>
+        <img id="promoVideo" src ="images/UTB-Logo-Big.png"/>
+        {/* <video id="promoVideo" autoPlay loop muted>
             <source src="videos/UTB.MP4" type="video/mp4" />
-        </video>
+        </video> */}
         {/* <iframe src="https://drive.google.com/file/d/16kh7_isQFUwZ9LQ-1y07fv4mX3zIzFIq/preview" width="600" height="480" autoPlay></iframe> */}
       </div>
       <div id={!hideUTBvideoScreen? "hide" :"videoCallHolder"}>

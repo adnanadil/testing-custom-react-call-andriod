@@ -58,12 +58,18 @@ function App() {
 
     peerInstance.current = peer;
 
-    
     if (!hideUTBvideoScreen && endPressed) {
       // update the value and then reload the page
       updateEndPressedCondition()
     }
-  }, [hideUTBvideoScreen, endPressed]);
+  },[]);
+
+  useEffect(() => {
+    if (!hideUTBvideoScreen && endPressed) {
+      // update the value and then reload the page
+      updateEndPressedCondition()
+    }
+  }, [endPressed, hideUTBvideoScreen])
 
   var updateEndPressedCondition = async () => {
     
